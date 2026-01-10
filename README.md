@@ -47,7 +47,9 @@ This will start the frontend on the default port `localhost:3000`
 ### 4. **Access the Application**
 
 Backend: The backend API will be available at `http://localhost:8080`
+
 Frontend: The frontend will be available at `http://localhost:3000`
+
 You should now be able to interact with both the frontend and backend locally!
 
 
