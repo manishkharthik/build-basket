@@ -30,7 +30,30 @@ public class ProjectedAttributesRepository {
                 pap."Impact"
             FROM player_attributes_projections pap
             JOIN player_stats ps
-              ON ps.clean_name = pap.player_name_clean
+            ON
+                regexp_replace(
+                regexp_replace(
+                    lower(pap.player_name_clean),
+                    '\\s+(jr\\.?|sr\\.?|ii|iii|iv)$',
+                    '',
+                    'i'
+                ),
+                '[^a-z]',
+                '',
+                'g'
+                )
+                =
+                regexp_replace(
+                regexp_replace(
+                    lower(ps.clean_name),
+                    '\\s+(jr\\.?|sr\\.?|ii|iii|iv)$',
+                    '',
+                    'i'
+                ),
+                '[^a-z]',
+                '',
+                'g'
+                )
             WHERE ps.player_id = ?
             ORDER BY pap.year_ahead;
         """;

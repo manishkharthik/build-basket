@@ -1,11 +1,14 @@
 package com.manish.buildbasket.api.controller;
 
+import com.manish.buildbasket.api.dto.AttributePercentilesDTO;
 import com.manish.buildbasket.api.dto.CurrentAttributesDTO;
 import com.manish.buildbasket.api.dto.PlayerSummaryDTO;
 import com.manish.buildbasket.api.dto.ProjectedAttributesDTO;
 import com.manish.buildbasket.api.repository.CurrentAttributesRepository;
 import com.manish.buildbasket.api.repository.ProjectedAttributesRepository;
+import com.manish.buildbasket.api.repository.AttributePercentilesRepository;
 import com.manish.buildbasket.api.service.PlayerService;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,15 +21,18 @@ public class PlayerController {
     private final PlayerService playerService;
     private final CurrentAttributesRepository currentAttributesRepository;
     private final ProjectedAttributesRepository projectedAttributesRepository;
+    private final AttributePercentilesRepository attributePercentilesRepository;
 
     public PlayerController(
         PlayerService playerService,
         CurrentAttributesRepository currentAttributesRepository,
-        ProjectedAttributesRepository projectedAttributesRepository
+        ProjectedAttributesRepository projectedAttributesRepository,
+        AttributePercentilesRepository attributePercentilesRepository
     ) {
         this.playerService = playerService;
         this.currentAttributesRepository = currentAttributesRepository;
         this.projectedAttributesRepository = projectedAttributesRepository;
+        this.attributePercentilesRepository = attributePercentilesRepository;
     }
 
     // Player list
@@ -47,5 +53,28 @@ public class PlayerController {
     public List<ProjectedAttributesDTO> projected(@PathVariable int playerId) {
         return projectedAttributesRepository
             .findProjectedAttributesByPlayerId(playerId);
+    }
+
+    // Current attribute percentiles
+    @GetMapping("/{playerId}/attributes/percentiles/current")
+    public AttributePercentilesDTO currentPercentiles(
+        @PathVariable int playerId
+    ) {
+        return attributePercentilesRepository
+            .findPercentilesByPlayerIdAndYear(playerId, 0);
+    }
+
+    // Projected attribute percentiles
+    @GetMapping("/{playerId}/attributes/percentiles/projected")
+    public List<AttributePercentilesDTO> projectedPercentiles(
+        @PathVariable int playerId
+    ) {
+        return List.of(
+            attributePercentilesRepository.findPercentilesByPlayerIdAndYear(playerId, 1),
+            attributePercentilesRepository.findPercentilesByPlayerIdAndYear(playerId, 2),
+            attributePercentilesRepository.findPercentilesByPlayerIdAndYear(playerId, 3),
+            attributePercentilesRepository.findPercentilesByPlayerIdAndYear(playerId, 4),
+            attributePercentilesRepository.findPercentilesByPlayerIdAndYear(playerId, 5)
+        );
     }
 }
