@@ -2,6 +2,8 @@
 
 BuildBasket is a data-driven basketball player analytics and projection tool designed to analyze, visualize, and predict player performance based on historical data. The app provides insights into a player's current attributes, tracks their development over time, and compares them to other players in the league. It includes a **Spring Boot backend** and a **Node.js frontend**. Follow the steps below to set up and run the app on your local machine.
 
+You can also access the website with this link: https://build-basket-frontend-omega.vercel.app/
+
 ## Requirements
 
 Before starting the app, make sure you have the following installed:
